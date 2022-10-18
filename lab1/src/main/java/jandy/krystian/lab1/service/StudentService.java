@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-public class StudentService {
+public class StudentService implements jandy.krystian.lab1.service.Service<Student, Long> {
 
     private final StudentRepository studentRepository;
 
@@ -22,6 +22,7 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
+    @Override
     public Optional<Student> find(Long id) {
         try {
             return studentRepository.find(id);
@@ -31,10 +32,12 @@ public class StudentService {
         }
     }
 
+    @Override
     public List<Student> findAll() {
         return studentRepository.findAll();
     }
 
+    @Override
     public void delete(Long id) {
         try {
             studentRepository.delete(id);
@@ -43,6 +46,7 @@ public class StudentService {
         }
     }
 
+    @Override
     public void create(Student entity) {
         try {
             studentRepository.create(entity);
@@ -51,6 +55,20 @@ public class StudentService {
         }
     }
 
+    @Override
+    public void create() {
+        try {
+            Long id = Long.parseLong()
+        }
+        Student.builder()
+                .id(1L)
+                .age(11)
+                .firstName("a")
+                .lastName("b")
+                .build();
+    }
+
+    @Override
     public void update(Student entity) {
         try {
             studentRepository.update(entity);
