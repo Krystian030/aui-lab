@@ -1,5 +1,6 @@
 package jandy.krystian.lab1.configuration;
 
+import jandy.krystian.lab1.model.Course;
 import jandy.krystian.lab1.model.Student;
 import jandy.krystian.lab1.service.CourseService;
 import jandy.krystian.lab1.service.StudentService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 
 @Component
 @Slf4j
@@ -49,5 +51,20 @@ public class InitializedData {
         studentService.create(student1);
         studentService.create(student2);
         studentService.create(student3);
+
+        Course course1 = Course.builder()
+                .id(1L)
+                .title("PROGRAMMING COURSE")
+                .students(new ArrayList<>())
+                .build();
+
+        Course course2 = Course.builder()
+                .id(2L)
+                .title("COOKING COURSE")
+                .students(new ArrayList<>())
+                .build();
+
+        courseService.create(course1);
+        courseService.create(course2);
     }
 }

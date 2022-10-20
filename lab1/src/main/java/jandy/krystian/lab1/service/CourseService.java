@@ -81,6 +81,7 @@ public class CourseService implements jandy.krystian.lab1.service.Service<Course
             courseRepository.create(Course.builder()
                     .id(id)
                     .title(title)
+                    .students(new ArrayList<>())
                     .build()
             );
             log.info("Successful create");
@@ -129,6 +130,7 @@ public class CourseService implements jandy.krystian.lab1.service.Service<Course
                     () -> {
                         throw new IllegalArgumentException("Cannot add student to course");
                     });
+            update(course.get());
             log.info("Student is added to course");
         } catch (Exception e) {
             log.error(e.getMessage());
