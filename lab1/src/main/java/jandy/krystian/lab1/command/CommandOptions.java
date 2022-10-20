@@ -14,7 +14,8 @@ public enum CommandOptions {
     SELECT("SELECT"),
     SELECT_ALL("SELECT_ALL"),
     COMMANDS("COMMANDS"),
-    UNDEFINED("UNDEFINED");
+    UNDEFINED("UNDEFINED"),
+    ADD_TO_COURSE("ADD_TO_COURSE");
 
     private final String option;
 

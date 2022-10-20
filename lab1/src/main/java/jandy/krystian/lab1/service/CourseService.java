@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,9 +18,12 @@ public class CourseService implements jandy.krystian.lab1.service.Service<Course
 
     private final CourseRepository courseRepository;
 
+    private final StudentService studentService;
+
     @Autowired
-    public CourseService(CourseRepository courseRepository) {
+    public CourseService(CourseRepository courseRepository, StudentService studentService) {
         this.courseRepository = courseRepository;
+        this.studentService = studentService;
     }
 
     @Override
@@ -41,7 +45,7 @@ public class CourseService implements jandy.krystian.lab1.service.Service<Course
 
     @Override
     public List<Course> findAll() {
-         return courseRepository.findAll();
+        return courseRepository.findAll();
     }
 
     @Override
@@ -93,7 +97,7 @@ public class CourseService implements jandy.krystian.lab1.service.Service<Course
     @Override
     public void update() {
         try {
-            System.out.println(">>> COURSE UPDAtE");
+            System.out.println(">>> COURSE UPDATE");
             System.out.println("Enter id: ");
             Long id = Long.parseLong(CommandLine.scanner.nextLine());
             System.out.println("Enter title: ");
@@ -101,9 +105,31 @@ public class CourseService implements jandy.krystian.lab1.service.Service<Course
             courseRepository.update(Course.builder()
                     .id(id)
                     .title(title)
+                    .students(new ArrayList<>())
                     .build()
             );
             log.info("Successful update");
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    public void addToCourse() {
+        try {
+            System.out.println("Enter student id: ");
+            Long studentId = Long.parseLong(CommandLine.scanner.nextLine());
+            Student student = studentService.find(studentId).get();
+            System.out.println("Enter course id: ");
+            Long courseId = Long.parseLong(CommandLine.scanner.nextLine());
+            Optional<Course> course = find(courseId);
+            course.ifPresentOrElse(
+                    tmp -> {
+                        course.get().getStudents().add(student);
+                    },
+                    () -> {
+                        throw new IllegalArgumentException("Cannot add student to course");
+                    });
+            log.info("Student is added to course");
         } catch (Exception e) {
             log.error(e.getMessage());
         }

@@ -35,6 +35,7 @@ public class CommandLine implements CommandLineRunner {
         System.out.println(">>> DELETE [STUDENT][COURSE] - delete student / course");
         System.out.println(">>> SELECT [STUDENT][COURSE] - find student / course");
         System.out.println(">>> SELECT_ALL [STUDENT][COURSE] - find all students/ courses");
+        System.out.println(">>> ADD_TO_COURSE - add student to course");
         System.out.println(">>> COMMANDS - show all commands");
         System.out.println(">>> EXIT - exit");
     }
