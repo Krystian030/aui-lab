@@ -19,7 +19,5 @@ public interface Service<E, K> {
 
     void create();
 
-    void update(E entity);
-
     void update();
 }

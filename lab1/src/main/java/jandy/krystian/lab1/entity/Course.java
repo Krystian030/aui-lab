@@ -1,13 +1,15 @@
 package jandy.krystian.lab1.entity;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -24,9 +26,12 @@ public class Course {
     @Column(name="title")
     private String title;
 
-    @OneToMany
-    @Basic(fetch = FetchType.EAGER)
-    private List<Student> students;
+    @Column(name="language")
+    private String language;
+
+    @OneToMany(mappedBy = "course",fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<Student> students = new ArrayList<>();
 }
 
 

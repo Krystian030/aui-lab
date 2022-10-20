@@ -2,6 +2,7 @@ package jandy.krystian.lab1.command;
 
 import jandy.krystian.lab1.service.CourseService;
 import jandy.krystian.lab1.service.Service;
+import jandy.krystian.lab1.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -55,6 +56,10 @@ public class Command {
                     break;
                 case SELECT:
                     System.out.println(service.find());
+                    break;
+                case FIND_ALL_BY_COURSE_ID:
+                    StudentService studentService = InitializeServices.studentService;
+                    System.out.println(studentService.findAllByCourseId());
                     break;
                 default:
                     throw new IllegalArgumentException(String.join("Not found method", method.toString()));

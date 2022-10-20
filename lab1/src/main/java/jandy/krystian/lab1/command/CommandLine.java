@@ -3,6 +3,7 @@ package jandy.krystian.lab1.command;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Locale;
 import java.util.Scanner;
@@ -36,6 +37,7 @@ public class CommandLine implements CommandLineRunner {
         System.out.println(">>> SELECT [STUDENT][COURSE] - find student / course");
         System.out.println(">>> SELECT_ALL [STUDENT][COURSE] - find all students/ courses");
         System.out.println(">>> ADD_TO_COURSE - add student to course");
+        System.out.println(">>> FIND_ALL_BY_COURSE_ID - find all students from course");
         System.out.println(">>> COMMANDS - show all commands");
         System.out.println(">>> EXIT - exit");
     }

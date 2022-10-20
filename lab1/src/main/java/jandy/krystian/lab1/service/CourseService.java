@@ -7,6 +7,7 @@ import jandy.krystian.lab1.repository.database.h2.CourseRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,18 +46,23 @@ public class CourseService implements jandy.krystian.lab1.service.Service<Course
 
     @Override
     public List<Course> findAll() {
-        List<Course> courses = courseRepository.findAll();
-
-        System.out.println("test");
-        return courseRepository.findAll();
+        List<Course> courses = null;
+        try {
+            courses = courseRepository.findAll();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return courses;
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         courseRepository.deleteById(id);
     }
 
     @Override
+    @Transactional
     public void delete() {
         try {
             System.out.println("Enter id: ");
@@ -69,11 +75,13 @@ public class CourseService implements jandy.krystian.lab1.service.Service<Course
     }
 
     @Override
+    @Transactional
     public void create(Course entity) {
         courseRepository.save(entity);
     }
 
     @Override
+    @Transactional
     public void create() {
         try {
             System.out.println(">>> COURSE CREATE");
@@ -90,31 +98,44 @@ public class CourseService implements jandy.krystian.lab1.service.Service<Course
         }
     }
 
-    @Override
-    public void update(Course entity) {
-//        courseRepository.update(entity);
-    }
+
 
     @Override
+    @Transactional
     public void update() {
-        try {
-            System.out.println(">>> COURSE UPDATE");
-            System.out.println("Enter id: ");
-            Long id = Long.parseLong(CommandLine.scanner.nextLine());
-            System.out.println("Enter title: ");
-            String title = CommandLine.scanner.nextLine();
-//            courseRepository.update(Course.builder()
-//                    .id(id)
-//                    .title(title)
-//                    .students(new ArrayList<>())
-//                    .build()
-//            );
-            log.info("Successful update");
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-    }
 
+    }
+//        try {
+//            System.out.println(">>> COURSE UPDATE");
+//            System.out.println("Enter id: ");
+//            Long id = Long.parseLong(CommandLine.scanner.nextLine());
+//            studentRepository.findById(id).ifPresentOrElse(
+//                    (student) -> {
+//                        System.out.println("Enter age: ");
+//                        Integer age = Integer.parseInt(CommandLine.scanner.nextLine());
+//                        System.out.println("Enter name: ");
+//                        String firstName = CommandLine.scanner.nextLine();
+//                        System.out.println("Enter surname: ");
+//                        String lastName = CommandLine.scanner.nextLine();
+//                        System.out.println("Enter course id: ");
+//                        Long courseId = Long.parseLong(CommandLine.scanner.nextLine());
+//                        student.setCourse(courseRepository.getById(courseId));
+//                        student.setLastName(lastName);
+//                        student.setFirstName(firstName);
+//                        student.setAge(age);
+//                    },
+//                    () -> {
+//                        throw new IllegalArgumentException();
+//                    }
+//            );
+//            log.info("Successful update");
+//        } catch (Exception e) {
+//            log.error(e.getMessage());
+//        }
+//    }
+
+
+    @Transactional
     public void addToCourse() {
         try {
             System.out.println("Enter student id: ");
@@ -124,13 +145,10 @@ public class CourseService implements jandy.krystian.lab1.service.Service<Course
             Long courseId = Long.parseLong(CommandLine.scanner.nextLine());
             Optional<Course> course = find(courseId);
             course.ifPresentOrElse(
-                    tmp -> {
-                        course.get().getStudents().add(student);
-                    },
+                    student::setCourse,
                     () -> {
                         throw new IllegalArgumentException("Cannot add student to course");
                     });
-            update(course.get());
             log.info("Student is added to course");
         } catch (Exception e) {
             log.error(e.getMessage());

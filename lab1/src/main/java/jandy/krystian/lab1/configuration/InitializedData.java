@@ -7,9 +7,9 @@ import jandy.krystian.lab1.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 
 @Component
 @Slf4j
@@ -26,45 +26,44 @@ public class InitializedData {
     }
 
     @PostConstruct
-    private void init() {
+    @Transactional
+    public void init() {
+
+        Course course1 = Course.builder()
+                .title("PROGRAMMING COURSE")
+                .language("pl")
+                .build();
+        Course course2 = Course.builder()
+                .title("COOKING COURSE")
+                .language("en")
+                .build();
+
+        courseService.create(course1);
+        courseService.create(course2);
+
         Student student1 = Student.builder()
-                .id(1L)
                 .age(18)
-                .firstName("Andrew")
-                .lastName("Smith")
+                .name("Andrew")
+                .surname("Smith")
+                .course(course1)
                 .build();
 
         Student student2 = Student.builder()
-                .id(2L)
                 .age(19)
-                .firstName("Matthew")
-                .lastName("Brigs")
+                .name("Matthew")
+                .surname("Brigs")
+                .course(course1)
                 .build();
 
         Student student3 = Student.builder()
-                .id(3L)
                 .age(16)
-                .firstName("Anna")
-                .lastName("White")
+                .name("Anna")
+                .surname("White")
+                .course(course2)
                 .build();
 
         studentService.create(student1);
         studentService.create(student2);
         studentService.create(student3);
-
-        Course course1 = Course.builder()
-                .id(1L)
-                .title("PROGRAMMING COURSE")
-                .students(new ArrayList<>())
-                .build();
-
-        Course course2 = Course.builder()
-                .id(2L)
-                .title("COOKING COURSE")
-                .students(new ArrayList<>())
-                .build();
-
-        courseService.create(course1);
-        courseService.create(course2);
     }
 }

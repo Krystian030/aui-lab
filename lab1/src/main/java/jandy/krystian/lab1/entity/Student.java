@@ -1,12 +1,13 @@
 package jandy.krystian.lab1.entity;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 
 
 @Data
-@Builder
+@SuperBuilder
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,16 +21,16 @@ public class Student {
     private Long id;
 
     @Column(name = "firstname")
-    private String firstName;
+    private String name;
 
-    @Column(name = "lastname")
-    private String lastName;
+    @Column(name = "surname")
+    private String surname;
 
     @Column(name = "age")
     private int age;
 
     @ManyToOne
-    @JoinColumn(name = "students")
+    @JoinColumn(name ="course_id")
     private Course course;
 }
 

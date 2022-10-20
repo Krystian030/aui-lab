@@ -2,10 +2,12 @@ package jandy.krystian.lab1.service;
 
 import jandy.krystian.lab1.command.CommandLine;
 import jandy.krystian.lab1.entity.Student;
+import jandy.krystian.lab1.repository.database.h2.CourseRepository;
 import jandy.krystian.lab1.repository.database.h2.StudentRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,9 +18,12 @@ public class StudentService implements jandy.krystian.lab1.service.Service<Stude
 
     private final StudentRepository studentRepository;
 
+    private final CourseRepository courseRepository;
+
     @Autowired
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository, CourseRepository courseRepository) {
         this.studentRepository = studentRepository;
+        this.courseRepository = courseRepository;
     }
 
     @Override
@@ -49,6 +54,7 @@ public class StudentService implements jandy.krystian.lab1.service.Service<Stude
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         try {
             studentRepository.deleteById(id);
@@ -58,6 +64,7 @@ public class StudentService implements jandy.krystian.lab1.service.Service<Stude
     }
 
     @Override
+    @Transactional
     public void delete() {
         try {
             System.out.println("Enter id: ");
@@ -70,6 +77,7 @@ public class StudentService implements jandy.krystian.lab1.service.Service<Stude
     }
 
     @Override
+    @Transactional
     public void create(Student entity) {
         try {
             studentRepository.save(entity);
@@ -79,6 +87,7 @@ public class StudentService implements jandy.krystian.lab1.service.Service<Stude
     }
 
     @Override
+    @Transactional
     public void create() {
         try {
             System.out.println(">>> STUDENT CREATE");
@@ -87,11 +96,18 @@ public class StudentService implements jandy.krystian.lab1.service.Service<Stude
             System.out.println("Enter name: ");
             String firstName = CommandLine.scanner.nextLine();
             System.out.println("Enter surname: ");
-            String lastName = CommandLine.scanner.nextLine();
+            String surname = CommandLine.scanner.nextLine();
+            Long course = null;
+            try {
+                System.out.println("Enter course id: ");
+                course = Long.parseLong(CommandLine.scanner.nextLine());
+            } catch (Exception e) {
+                log.error("Cannot parse to long value");
+            }
             studentRepository.save(Student.builder()
                     .age(age)
-                    .firstName(firstName)
-                    .lastName(lastName)
+                    .name(firstName)
+                    .surname(surname)
                     .build());
             log.info("Successful create");
         } catch (Exception e) {
@@ -99,33 +115,38 @@ public class StudentService implements jandy.krystian.lab1.service.Service<Stude
         }
     }
 
-    @Override
-    public void update(Student entity) {
-        try {
-//            studentRepository.update(entity);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
+    public List<Student> findAllByCourseId() {
+        System.out.println("Enter course id: ");
+        Long courseId = Long.parseLong(CommandLine.scanner.nextLine());
+        return studentRepository.findAllByCourseId(courseId);
     }
 
     @Override
+    @Transactional
     public void update() {
         try {
             System.out.println(">>> STUDENT UPDATE");
             System.out.println("Enter id: ");
             Long id = Long.parseLong(CommandLine.scanner.nextLine());
-            System.out.println("Enter age: ");
-            Integer age = Integer.parseInt(CommandLine.scanner.nextLine());
-            System.out.println("Enter name: ");
-            String firstName = CommandLine.scanner.nextLine();
-            System.out.println("Enter surname: ");
-            String lastName = CommandLine.scanner.nextLine();
-//            studentRepository.update(Student.builder()
-//                    .id(id)
-//                    .age(age)
-//                    .firstName(firstName)
-//                    .lastName(lastName)
-//                    .build());
+            studentRepository.findById(id).ifPresentOrElse(
+                    (student) -> {
+                        System.out.println("Enter age: ");
+                        Integer age = Integer.parseInt(CommandLine.scanner.nextLine());
+                        System.out.println("Enter name: ");
+                        String firstName = CommandLine.scanner.nextLine();
+                        System.out.println("Enter surname: ");
+                        String lastName = CommandLine.scanner.nextLine();
+                        System.out.println("Enter course id: ");
+                        Long courseId = Long.parseLong(CommandLine.scanner.nextLine());
+                        student.setCourse(courseRepository.getById(courseId));
+                        student.setSurname(lastName);
+                        student.setName(firstName);
+                        student.setAge(age);
+                    },
+                    () -> {
+                        throw new IllegalArgumentException();
+                    }
+            );
             log.info("Successful update");
         } catch (Exception e) {
             log.error(e.getMessage());

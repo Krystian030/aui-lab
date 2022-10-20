@@ -1,4 +1,4 @@
-package jandy.krystian.lab1.controller;
+package jandy.krystian.lab1.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,11 +9,11 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Data
-public class StudentDto {
+public class PostStudentRequest {
 
     String name;
 
-    String lastName;
+    String surname;
 
     int age;
 }
