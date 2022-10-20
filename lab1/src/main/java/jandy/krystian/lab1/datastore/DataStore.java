@@ -1,7 +1,7 @@
 package jandy.krystian.lab1.datastore;
 
-import jandy.krystian.lab1.model.Course;
-import jandy.krystian.lab1.model.Student;
+import jandy.krystian.lab1.entity.Course;
+import jandy.krystian.lab1.entity.Student;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

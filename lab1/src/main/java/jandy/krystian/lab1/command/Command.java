@@ -1,6 +1,5 @@
 package jandy.krystian.lab1.command;
 
-import jandy.krystian.lab1.model.Student;
 import jandy.krystian.lab1.service.CourseService;
 import jandy.krystian.lab1.service.Service;
 import lombok.extern.slf4j.Slf4j;

@@ -1,9 +1,9 @@
 package jandy.krystian.lab1.service;
 
 import jandy.krystian.lab1.command.CommandLine;
-import jandy.krystian.lab1.model.Course;
-import jandy.krystian.lab1.model.Student;
-import jandy.krystian.lab1.repository.CourseRepository;
+import jandy.krystian.lab1.entity.Course;
+import jandy.krystian.lab1.entity.Student;
+import jandy.krystian.lab1.repository.database.h2.CourseRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class CourseService implements jandy.krystian.lab1.service.Service<Course
 
     @Override
     public Optional<Course> find(Long id) {
-        return courseRepository.find(id);
+        return courseRepository.findById(id);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class CourseService implements jandy.krystian.lab1.service.Service<Course
         try {
             System.out.println("Enter id: ");
             Long id = Long.parseLong(CommandLine.scanner.nextLine());
-            return courseRepository.find(id);
+            return courseRepository.findById(id);
         } catch (Exception e) {
             log.error("Unexpected error occurs: ", e);
             return Optional.empty();
@@ -45,12 +45,15 @@ public class CourseService implements jandy.krystian.lab1.service.Service<Course
 
     @Override
     public List<Course> findAll() {
+        List<Course> courses = courseRepository.findAll();
+
+        System.out.println("test");
         return courseRepository.findAll();
     }
 
     @Override
     public void delete(Long id) {
-        courseRepository.delete(id);
+        courseRepository.deleteById(id);
     }
 
     @Override
@@ -58,7 +61,7 @@ public class CourseService implements jandy.krystian.lab1.service.Service<Course
         try {
             System.out.println("Enter id: ");
             Long id = Long.parseLong(CommandLine.scanner.nextLine());
-            courseRepository.delete(id);
+            courseRepository.deleteById(id);
             log.info("Successful delete");
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -67,19 +70,16 @@ public class CourseService implements jandy.krystian.lab1.service.Service<Course
 
     @Override
     public void create(Course entity) {
-        courseRepository.create(entity);
+        courseRepository.save(entity);
     }
 
     @Override
     public void create() {
         try {
             System.out.println(">>> COURSE CREATE");
-            System.out.println("Enter id: ");
-            Long id = Long.parseLong(CommandLine.scanner.nextLine());
             System.out.println("Enter title: ");
             String title = CommandLine.scanner.nextLine();
-            courseRepository.create(Course.builder()
-                    .id(id)
+            courseRepository.save(Course.builder()
                     .title(title)
                     .students(new ArrayList<>())
                     .build()
@@ -92,7 +92,7 @@ public class CourseService implements jandy.krystian.lab1.service.Service<Course
 
     @Override
     public void update(Course entity) {
-        courseRepository.update(entity);
+//        courseRepository.update(entity);
     }
 
     @Override
@@ -103,12 +103,12 @@ public class CourseService implements jandy.krystian.lab1.service.Service<Course
             Long id = Long.parseLong(CommandLine.scanner.nextLine());
             System.out.println("Enter title: ");
             String title = CommandLine.scanner.nextLine();
-            courseRepository.update(Course.builder()
-                    .id(id)
-                    .title(title)
-                    .students(new ArrayList<>())
-                    .build()
-            );
+//            courseRepository.update(Course.builder()
+//                    .id(id)
+//                    .title(title)
+//                    .students(new ArrayList<>())
+//                    .build()
+//            );
             log.info("Successful update");
         } catch (Exception e) {
             log.error(e.getMessage());

@@ -1,7 +1,7 @@
 package jandy.krystian.lab1.configuration;
 
-import jandy.krystian.lab1.model.Course;
-import jandy.krystian.lab1.model.Student;
+import jandy.krystian.lab1.entity.Course;
+import jandy.krystian.lab1.entity.Student;
 import jandy.krystian.lab1.service.CourseService;
 import jandy.krystian.lab1.service.StudentService;
 import lombok.extern.slf4j.Slf4j;

@@ -1,10 +1,8 @@
 package jandy.krystian.lab1.service;
 
 import jandy.krystian.lab1.command.CommandLine;
-import jandy.krystian.lab1.model.Course;
-import jandy.krystian.lab1.model.Student;
-import jandy.krystian.lab1.repository.CourseRepository;
-import jandy.krystian.lab1.repository.StudentRepository;
+import jandy.krystian.lab1.entity.Student;
+import jandy.krystian.lab1.repository.database.h2.StudentRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +24,7 @@ public class StudentService implements jandy.krystian.lab1.service.Service<Stude
     @Override
     public Optional<Student> find(Long id) {
         try {
-            return studentRepository.find(id);
+            return studentRepository.findById(id);
         } catch (Exception e) {
             log.error(e.getMessage());
             return Optional.empty();
@@ -38,7 +36,7 @@ public class StudentService implements jandy.krystian.lab1.service.Service<Stude
         try {
             System.out.println("Enter id: ");
             Long id = Long.parseLong(CommandLine.scanner.nextLine());
-            return studentRepository.find(id);
+            return studentRepository.findById(id);
         } catch (Exception e) {
             log.error("Unexpected error occurs: ", e);
             return Optional.empty();
@@ -53,7 +51,7 @@ public class StudentService implements jandy.krystian.lab1.service.Service<Stude
     @Override
     public void delete(Long id) {
         try {
-            studentRepository.delete(id);
+            studentRepository.deleteById(id);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -64,7 +62,7 @@ public class StudentService implements jandy.krystian.lab1.service.Service<Stude
         try {
             System.out.println("Enter id: ");
             Long id = Long.parseLong(CommandLine.scanner.nextLine());
-            studentRepository.delete(id);
+            studentRepository.deleteById(id);
             log.info("Successful delete");
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -74,7 +72,7 @@ public class StudentService implements jandy.krystian.lab1.service.Service<Stude
     @Override
     public void create(Student entity) {
         try {
-            studentRepository.create(entity);
+            studentRepository.save(entity);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -84,16 +82,13 @@ public class StudentService implements jandy.krystian.lab1.service.Service<Stude
     public void create() {
         try {
             System.out.println(">>> STUDENT CREATE");
-            System.out.println("Enter id: ");
-            Long id = Long.parseLong(CommandLine.scanner.nextLine());
             System.out.println("Enter age: ");
             Integer age = Integer.parseInt(CommandLine.scanner.nextLine());
             System.out.println("Enter name: ");
             String firstName = CommandLine.scanner.nextLine();
             System.out.println("Enter surname: ");
             String lastName = CommandLine.scanner.nextLine();
-            studentRepository.create(Student.builder()
-                    .id(id)
+            studentRepository.save(Student.builder()
                     .age(age)
                     .firstName(firstName)
                     .lastName(lastName)
@@ -107,7 +102,7 @@ public class StudentService implements jandy.krystian.lab1.service.Service<Stude
     @Override
     public void update(Student entity) {
         try {
-            studentRepository.update(entity);
+//            studentRepository.update(entity);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -125,12 +120,12 @@ public class StudentService implements jandy.krystian.lab1.service.Service<Stude
             String firstName = CommandLine.scanner.nextLine();
             System.out.println("Enter surname: ");
             String lastName = CommandLine.scanner.nextLine();
-            studentRepository.update(Student.builder()
-                    .id(id)
-                    .age(age)
-                    .firstName(firstName)
-                    .lastName(lastName)
-                    .build());
+//            studentRepository.update(Student.builder()
+//                    .id(id)
+//                    .age(age)
+//                    .firstName(firstName)
+//                    .lastName(lastName)
+//                    .build());
             log.info("Successful update");
         } catch (Exception e) {
             log.error(e.getMessage());
