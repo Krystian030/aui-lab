@@ -17,10 +17,12 @@ import java.util.Optional;
 public class StudentService implements jandy.krystian.lab1.service.Service<Student, Long> {
 
     private final StudentRepository studentRepository;
-
+    private final CourseRepository courseRepository;
     @Autowired
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository, CourseRepository courseRepository)
+    {
         this.studentRepository = studentRepository;
+        this.courseRepository = courseRepository;
     }
 
     @Override
@@ -64,8 +66,19 @@ public class StudentService implements jandy.krystian.lab1.service.Service<Stude
         try {
             System.out.println("Enter id: ");
             Long id = Long.parseLong(CommandLine.scanner.nextLine());
-            studentRepository.delete(id);
-            log.info("Successful delete");
+            Optional<Student> student = studentRepository.find(id);
+            if (student.isPresent()) {
+                Student actualStudent = student.get();
+                List<Course> courses = courseRepository.findAll();
+                courses.forEach( course -> {
+                    course.getStudents().remove(actualStudent);
+                });
+                studentRepository.delete(id);
+                log.info("Successful delete");
+                return;
+            }
+
+            throw new IllegalArgumentException("Cannot find student");
         } catch (Exception e) {
             log.error(e.getMessage());
         }
