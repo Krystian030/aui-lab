@@ -15,7 +15,7 @@ public interface Service<E, K> {
 
     void delete();
 
-    void create(E entity);
+    E create(E entity);
 
     void create();
 

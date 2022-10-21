@@ -1,6 +1,7 @@
 package jandy.krystian.lab1.service;
 
 import jandy.krystian.lab1.command.CommandLine;
+import jandy.krystian.lab1.entity.Course;
 import jandy.krystian.lab1.entity.Student;
 import jandy.krystian.lab1.repository.database.h2.CourseRepository;
 import jandy.krystian.lab1.repository.database.h2.StudentRepository;
@@ -78,11 +79,12 @@ public class StudentService implements jandy.krystian.lab1.service.Service<Stude
 
     @Override
     @Transactional
-    public void create(Student entity) {
+    public Student create(Student entity) {
         try {
-            studentRepository.save(entity);
+            return studentRepository.save(entity);
         } catch (Exception e) {
             log.error(e.getMessage());
+            return null;
         }
     }
 
@@ -148,6 +150,35 @@ public class StudentService implements jandy.krystian.lab1.service.Service<Stude
                     }
             );
             log.info("Successful update");
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    @Transactional
+    public void update(Long id, Student student) {
+        find(id).ifPresentOrElse(
+                (original) -> {
+                    original.setSurname(student.getSurname());
+                    original.setAge(student.getAge());
+                    original.setName(student.getName());
+                },
+                () -> {
+                    throw new IllegalArgumentException("Cannot update student");
+                }
+        );
+    }
+
+    @Transactional
+    public void addCourseToStudent(Long courseId, Student student) {
+        try {
+            Optional<Course> course = courseRepository.findById(courseId);
+            course.ifPresentOrElse(
+                    student::setCourse,
+                    () -> {
+                        throw new IllegalArgumentException("Cannot add student to course");
+                    });
+            log.info("Student is added to course");
         } catch (Exception e) {
             log.error(e.getMessage());
         }

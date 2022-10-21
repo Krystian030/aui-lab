@@ -1,6 +1,7 @@
 package jandy.krystian.lab1.service;
 
 import jandy.krystian.lab1.command.CommandLine;
+import jandy.krystian.lab1.dto.course.PutCourseResponse;
 import jandy.krystian.lab1.entity.Course;
 import jandy.krystian.lab1.entity.Student;
 import jandy.krystian.lab1.repository.database.h2.CourseRepository;
@@ -76,8 +77,8 @@ public class CourseService implements jandy.krystian.lab1.service.Service<Course
 
     @Override
     @Transactional
-    public void create(Course entity) {
-        courseRepository.save(entity);
+    public Course create(Course entity) {
+        return courseRepository.save(entity);
     }
 
     @Override
@@ -98,42 +99,10 @@ public class CourseService implements jandy.krystian.lab1.service.Service<Course
         }
     }
 
-
-
     @Override
-    @Transactional
     public void update() {
 
     }
-//        try {
-//            System.out.println(">>> COURSE UPDATE");
-//            System.out.println("Enter id: ");
-//            Long id = Long.parseLong(CommandLine.scanner.nextLine());
-//            studentRepository.findById(id).ifPresentOrElse(
-//                    (student) -> {
-//                        System.out.println("Enter age: ");
-//                        Integer age = Integer.parseInt(CommandLine.scanner.nextLine());
-//                        System.out.println("Enter name: ");
-//                        String firstName = CommandLine.scanner.nextLine();
-//                        System.out.println("Enter surname: ");
-//                        String lastName = CommandLine.scanner.nextLine();
-//                        System.out.println("Enter course id: ");
-//                        Long courseId = Long.parseLong(CommandLine.scanner.nextLine());
-//                        student.setCourse(courseRepository.getById(courseId));
-//                        student.setLastName(lastName);
-//                        student.setFirstName(firstName);
-//                        student.setAge(age);
-//                    },
-//                    () -> {
-//                        throw new IllegalArgumentException();
-//                    }
-//            );
-//            log.info("Successful update");
-//        } catch (Exception e) {
-//            log.error(e.getMessage());
-//        }
-//    }
-
 
     @Transactional
     public void addToCourse() {
@@ -153,5 +122,18 @@ public class CourseService implements jandy.krystian.lab1.service.Service<Course
         } catch (Exception e) {
             log.error(e.getMessage());
         }
+    }
+
+    @Transactional
+    public void update(Long id, PutCourseResponse courseResponse) {
+        find(id).ifPresentOrElse(
+                (original) -> {
+                    original.setTitle(courseResponse.getTitle());
+                    original.setLanguage(courseResponse.getLanguage());
+                },
+                () -> {
+                    throw new IllegalArgumentException("Cannot update student");
+                }
+        );
     }
 }

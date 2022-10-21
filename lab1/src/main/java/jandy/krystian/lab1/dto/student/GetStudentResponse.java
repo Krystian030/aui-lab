@@ -1,4 +1,4 @@
-package jandy.krystian.lab1.dto;
+package jandy.krystian.lab1.dto.student;
 
 import lombok.*;
 
