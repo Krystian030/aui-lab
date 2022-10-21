@@ -4,7 +4,10 @@ import jandy.krystian.lab1.dto.course.GetCourseResponse;
 import jandy.krystian.lab1.dto.course.GetCoursesResponse;
 import jandy.krystian.lab1.dto.course.PostCourseRequest;
 import jandy.krystian.lab1.dto.course.PutCourseResponse;
+import jandy.krystian.lab1.dto.student.GetStudentResponse;
+import jandy.krystian.lab1.dto.student.GetStudentsResponse;
 import jandy.krystian.lab1.entity.Course;
+import jandy.krystian.lab1.entity.Student;
 import jandy.krystian.lab1.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -104,5 +107,26 @@ public class CourseController {
         }
     }
 
+    @GetMapping("/{courseId}/students")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<GetStudentsResponse> readAllByCourseId(@PathVariable(name="courseId") Long courseId) {
+        List<Student> students = courseService.findAllByCourseId(courseId);
+        if (students.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
 
+        return ResponseEntity.ok(
+                GetStudentsResponse.builder()
+                        .students(
+                                students.stream().map(
+                                        (student) -> GetStudentResponse.builder()
+                                                .surname(student.getSurname())
+                                                .id(student.getId())
+                                                .name(student.getName())
+                                                .build()
+                                ).collect(Collectors.toList())
+                        )
+                        .build()
+        );
+    }
 }

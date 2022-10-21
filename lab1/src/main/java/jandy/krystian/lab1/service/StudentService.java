@@ -117,6 +117,10 @@ public class StudentService implements jandy.krystian.lab1.service.Service<Stude
         }
     }
 
+    public List<Student> findAllByCourseId(Long courseId) {
+        return studentRepository.findAllByCourseId(courseId);
+    }
+
     public List<Student> findAllByCourseId() {
         System.out.println("Enter course id: ");
         Long courseId = Long.parseLong(CommandLine.scanner.nextLine());

@@ -136,4 +136,23 @@ public class CourseService implements jandy.krystian.lab1.service.Service<Course
                 }
         );
     }
+
+    @Transactional
+    public void addCourseToStudent(Long courseId, Student student) {
+        try {
+            Optional<Course> course = courseRepository.findById(courseId);
+            course.ifPresentOrElse(
+                    student::setCourse,
+                    () -> {
+                        throw new IllegalArgumentException("Cannot add student to course");
+                    });
+            log.info("Student is added to course");
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    public List<Student> findAllByCourseId(Long courseId) {
+        return studentService.findAllByCourseId(courseId);
+    }
 }

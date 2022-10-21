@@ -111,10 +111,4 @@ public class StudentController {
             return ResponseEntity.notFound().build();
         }
     }
-
-    @GetMapping("/{courseId}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<GetStudentsResponse> readAllByCourseId(@PathVariable(name="courseId") Long courseId) {
-        List<Student> 
-    }
 }
