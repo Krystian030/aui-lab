@@ -22,12 +22,6 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping("/")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Student> getAll() {
-        return studentService.findAll();
-    }
-
     @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody PostStudentRequest postStudentRequest) {
@@ -35,15 +29,16 @@ public class StudentController {
         System.out.println("test");
     }
 
-    @DeleteMapping("/{id}")
+    @GetMapping("/")
     @ResponseStatus(HttpStatus.OK)
-    public void create(@PathVariable(name = "id") Long id) {
-        studentService.delete(id);
+    public List<Student> readAll() {
+        return studentService.findAll();
     }
+
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<GetStudentResponse> get(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<GetStudentResponse> read(@PathVariable(name = "id") Long id) {
         return studentService.find(id).map(
                 (original) ->
                         ResponseEntity.ok(GetStudentResponse.builder()
@@ -53,5 +48,17 @@ public class StudentController {
                                 .build())
 
         ).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> update(@PathVariable(name="id") Long id) {
+        System.out.println("update");
+        return ResponseEntity.ok("update");
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void delete(@PathVariable(name = "id") Long id) {
+        studentService.delete(id);
     }
 }
