@@ -123,6 +123,9 @@ public class CourseService implements jandy.krystian.lab1.service.Service<Course
             System.out.println("Enter course id: ");
             Long courseId = Long.parseLong(CommandLine.scanner.nextLine());
             Optional<Course> course = find(courseId);
+            if (course.isPresent() && course.get().getStudents().contains(student)) {
+                throw new IllegalArgumentException("Student is already enrolled to course");
+            }
             course.ifPresentOrElse(
                     tmp -> {
                         course.get().getStudents().add(student);
