@@ -9,10 +9,13 @@
         <module name="lab1" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="aui-laboratory" target="11" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="lab1" options="-parameters" />
+      <module name="lab1" options="" />
     </option>
   </component>
 </project>
