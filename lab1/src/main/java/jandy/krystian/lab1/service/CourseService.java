@@ -59,7 +59,16 @@ public class CourseService implements jandy.krystian.lab1.service.Service<Course
     @Override
     @Transactional
     public void delete(Long id) {
+        setNull(id);
         courseRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void setNull(Long id) {
+        Course course = courseRepository.findById(id).get();
+        List<Student> students = studentService.findAllByCourseId(id);
+        students.forEach( student -> student.setCourse(null));
+        course.setStudents(null);
     }
 
     @Override
