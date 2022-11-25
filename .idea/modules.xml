@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/aui-courses/aui-courses.iml" filepath="$PROJECT_DIR$/aui-courses/aui-courses.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aui-gateway/aui-gateway.iml" filepath="$PROJECT_DIR$/aui-gateway/aui-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/aui-lab.iml" filepath="$PROJECT_DIR$/.idea/aui-lab.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aui-student/aui-student.iml" filepath="$PROJECT_DIR$/aui-student/aui-student.iml" />
+    </modules>
+  </component>
+</project>
