@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="description" content="Simple RPG web application"/>
+    <meta name="keywords" content="RPG"/>
+    <meta name="author" content="Michał (psysiu) Wójcik"/>
+    <title>Simple RPG</title>
+    <link rel="stylesheet" href="../css/styles.css"/>
+    <link rel="stylesheet" href="form.css"/>
+    <script src="../js/script.js" defer="defer"></script>
+    <script type="module" src="form.js" defer="defer"></script>
+</head>
+<body>
+<div class="container">
+    <header class="header">
+        <h1>Simple RPG</h1>
+    </header>
+
+    <nav class="navigation-bar">
+        <ul>
+            <li><a href="../index.html">main</a></li>
+            <li><a href="../about/about.html">about</a></li>
+            <li><a href="../courses_list/courses_list.html">courses</a></li>
+        </ul>
+    </nav>
+
+    <section class="main-section">
+        <article class="text--justified">
+            <header><h2>Add course</h2></header>
+            <form class="character__form" id="coursesForm">
+                <label for="rating">Rating:</label>
+                <input class="ui-control ui-input" id="rating" name="rating"/>
+                <label for="language">Language:</label>
+                <input class="ui-control" id="language" name="language"></input>
+                <input class="ui-control ui-button" type="submit" name="Update"/>
+            </form>
+        </article>
+    </section>
+
+    <footer class="footer">
+        <p>Copyright &copy; 2020, Michał (psysiu) Wójcik</p>
+        <p>All character's portraits were created using <a href="http://dmheroes.com">DMHeroes</a> developed by
+            <a href="https://twitter.com/ChristianOesch">Christian Oesch</a>.</p>
+    </footer>
+</div>
+</body>
+</html>

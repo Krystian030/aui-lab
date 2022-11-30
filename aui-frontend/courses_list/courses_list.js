@@ -2,13 +2,19 @@ import {clearElementChildren, createButtonCell, createLinkCell, createTextCell} 
 import {getBackendUrl} from '../js/configuration.js';
 
 window.addEventListener('load', () => {
-  fetchAndDisplayUsers();
+  const add_new_course = document.getElementById('new-category');
+  add_new_course.addEventListener('click', event => displayForm(event))
+  fetchAndDisplayCourses();
 });
+
+function displayForm() {
+  window.location.href = '../form/form.html';
+}
 
 /**
  * Fetches all users and modifies the DOM tree in order to display them.
  */
-function fetchAndDisplayUsers() {
+function fetchAndDisplayCourses() {
   const xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 200) {
@@ -48,6 +54,7 @@ function createTableRow(course) {
   let tr = document.createElement('tr');
   tr.appendChild(createTextCell(course));
   tr.appendChild(createLinkCell('view', '../course_view/course_view.html?course=' + course));
+  tr.appendChild(createLinkCell('edit', '../form_edit/form.html?course=' + course));
   tr.appendChild(createButtonCell('delete', () => deleteCourse(course)));
   return tr;
 }
@@ -61,7 +68,7 @@ function deleteCourse(course) {
   const xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 202) {
-      fetchAndDisplayUsers();
+      fetchAndDisplayCourses();
     }
   };
   xhttp.open("DELETE", getBackendUrl() + '/api/courses/' + course, true);

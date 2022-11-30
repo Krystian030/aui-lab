@@ -89,6 +89,8 @@ body {
 }
 
 .ui-button {
+    margin-bottom: 10px;
+    padding: 5px;
     height: 24px;
     padding-left: 2px;
     padding-right: 2px;

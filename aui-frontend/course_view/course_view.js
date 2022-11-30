@@ -11,7 +11,7 @@ import {getBackendUrl} from '../js/configuration.js';
 
 window.addEventListener('load', () => {
     fetchAndDisplayCourse();
-    // fetchAndDisplayStudents();
+    fetchAndDisplayStudents();
 });
 
 /**
@@ -24,56 +24,60 @@ function fetchAndDisplayStudents() {
             displayStudents(JSON.parse(this.responseText))
         }
     };
-    xhttp.open("GET", getBackendUrl() + '/api/users/' + getParameterByName('course') + '/students', true);
+    console.log(getBackendUrl() + '/api/courses/' + getParameterByName('course') + '/students/')
+    xhttp.open("GET", getBackendUrl() + '/api/courses/' + getParameterByName('course') + '/students/', true);
     xhttp.send();
 }
 
 /**
- * Updates the DOM tree in order to display characters.
+ * Updates the DOM tree in order to display students.
  *
- * @param {{characters: {id: number, name:string}[]}} characters
+ * @param {{students: {id: number, name:string}[]}} students
  */
-function displayStudents(characters) {
+function displayStudents(students) {
+    console.log(students)
     let tableBody = document.getElementById('tableBody');
     clearElementChildren(tableBody);
-    characters.characters.forEach(character => {
-        tableBody.appendChild(createTableRow(character));
+    students.students.forEach(student => {
+        tableBody.appendChild(createTableRow(student));
     })
 }
 
 /**
  * Creates single table row for entity.
  *
- * @param {{id: number, name: string}} character
+ * @param {{id: number, name: string}} student
  * @returns {HTMLTableRowElement}
  */
-function createTableRow(character) {
+function createTableRow(student) {
     let tr = document.createElement('tr');
     // tr.appendChild(createImageCell(getBackendUrl() + '/api/users/' + getParameterByName('course') + '/students/'
-    //     + character.id + '/portrait'));
-    tr.appendChild(createTextCell(character.name));
-    tr.appendChild(createTextCell(character.id));
-    tr.appendChild(createTextCell(character.surname));
-    tr.appendChild(createLinkCell('edit', '../character_edit/character_edit.html?user='
-        + getParameterByName('user') + '&character=' + character.id));
-    tr.appendChild(createButtonCell('delete', () => deleteCharacter(character.id)));
+    //     + student.id + '/portrait'));
+    tr.appendChild(createTextCell(student.name));
+    tr.appendChild(createTextCell(student.id));
+    tr.appendChild(createTextCell(student.surname));
+    tr.appendChild(createLinkCell('edit', '../student_edit/student_edit.html?user='
+        + getParameterByName('course') + '&student=' + student.id));
+    tr.appendChild(createButtonCell('delete', () => deleteStudent(student.id)));
     return tr;
 }
 
 /**
  * Deletes entity from backend and reloads table.
  *
- * @param {number} character to be deleted
+ * @param {number} student to be deleted
  */
-function deleteCharacter(character) {
+function deleteStudent(student) {
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 202) {
             fetchAndDisplayStudents();
         }
     };
-    xhttp.open("DELETE", getBackendUrl() + '/api/users/' + getParameterByName('user')
-        + '/characters/' + character, true);
+    console.log(getBackendUrl() + '/api/courses/' + getParameterByName('course')
+        + '/students/' + student)
+    xhttp.open("DELETE", getBackendUrl() + '/api/courses/' + getParameterByName('course')
+        + '/students/' + student, true);
     xhttp.send();
 }
 
