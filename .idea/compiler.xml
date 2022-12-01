@@ -14,6 +14,7 @@
     <bytecodeTargetLevel>
       <module name="aui-courses" target="11" />
       <module name="aui-gateway" target="11" />
+      <module name="aui-lab" target="1.8" />
       <module name="aui-student" target="11" />
     </bytecodeTargetLevel>
   </component>

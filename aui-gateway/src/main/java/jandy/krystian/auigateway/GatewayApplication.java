@@ -13,10 +13,10 @@ import java.util.Arrays;
 import java.util.Collections;
 
 @SpringBootApplication
-public class AuiGatewayApplication {
+public class GatewayApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AuiGatewayApplication.class, args);
+		SpringApplication.run(GatewayApplication.class, args);
 	}
 
 	@Bean
