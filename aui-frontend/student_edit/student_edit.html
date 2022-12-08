@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8"/>
     <link rel="stylesheet" href="../css/styles.css"/>
-    <link rel="stylesheet" href="form.css"/>
+    <link rel="stylesheet" href="student_edit.css"/>
     <script src="../js/script.js" defer="defer"></script>
-    <script type="module" src="form.js" defer="defer"></script>
+    <script type="module" src="student_edit.js" defer="defer"></script>
 </head>
 <body>
 <div class="container">
@@ -16,19 +16,20 @@
     <nav class="navigation-bar">
         <ul>
             <li><a href="../index.html">main</a></li>
-            <li><a href="../about/about.html">about</a></li>
             <li><a href="../courses_list/courses_list.html">courses</a></li>
         </ul>
     </nav>
 
     <section class="main-section">
         <article class="text--justified">
-            <header><h2>Add course</h2></header>
-            <form class="character__form" id="coursesForm">
-                <label for="rating">Rating:</label>
-                <input class="ui-control ui-input" id="rating" name="rating"/>
-                <label for="language">Language:</label>
-                <input class="ui-control" id="language" name="language"></input>
+            <header><h2>Edit student</h2></header>
+            <form class="student_edit_form" id="studentEditForm">
+                <label for="name">Name:</label>
+                <input class="ui-control ui-input" id="name" name="name"/>
+                <br>
+                <label for="surname">Surname:</label>
+                <input class="ui-control" id="surname" name="surname"></input>
+                <br>
                 <input class="ui-control ui-button" type="submit" name="Update"/>
             </form>
         </article>

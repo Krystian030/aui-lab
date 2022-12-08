@@ -30,10 +30,10 @@ public class InitializedData {
     public void init() {
 
         Course course1 = Course.builder()
-                .title("PROGRAMMING COURSE")
+                .title("PROGRAMMING-COURSE")
                 .build();
         Course course2 = Course.builder()
-                .title("COOKING COURSE")
+                .title("COOKING-COURSE")
                 .build();
 
         courseService.create(course1);

@@ -10,9 +10,16 @@ import {
 import {getBackendUrl} from '../js/configuration.js';
 
 window.addEventListener('load', () => {
+    const addNewStudent = document.getElementById('new-student');
+    addNewStudent.addEventListener('click', event => displayForm(event))
     fetchAndDisplayCourse();
     fetchAndDisplayStudents();
 });
+
+function displayForm() {
+    const courseName = getParameterByName('course');
+    window.location.href = '../add-student-form/add_student_form.html?course='+courseName;
+}
 
 /**
  * Fetches all users and modifies the DOM tree in order to display them.
@@ -53,10 +60,11 @@ function createTableRow(student) {
     let tr = document.createElement('tr');
     // tr.appendChild(createImageCell(getBackendUrl() + '/api/users/' + getParameterByName('course') + '/students/'
     //     + student.id + '/portrait'));
-    tr.appendChild(createTextCell(student.name));
+    tr.appendChild(createLinkCell(student.name, "../student_view/student_view.html?student=" +
+     + student.id));
     tr.appendChild(createTextCell(student.id));
     tr.appendChild(createTextCell(student.surname));
-    tr.appendChild(createLinkCell('edit', '../student_edit/student_edit.html?user='
+    tr.appendChild(createLinkCell('edit', '../student_edit/student_edit.html?course='
         + getParameterByName('course') + '&student=' + student.id));
     tr.appendChild(createButtonCell('delete', () => deleteStudent(student.id)));
     return tr;

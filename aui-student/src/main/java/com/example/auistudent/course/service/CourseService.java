@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,6 +42,13 @@ public class CourseService {
 
     @Transactional
     public Course create(Course entity) {
+        Optional<Course> optional = courseRepository.findByTitle(entity.getTitle());
+        System.out.println(optional);
+        if (optional.isPresent()) {
+            log.warn("Course is already exists");
+            return null;
+        }
+
         return courseRepository.save(entity);
     }
 }
